@@ -4,6 +4,6 @@
      $appName = $config['app_name'];
      $pageTitle = 'Todo-List';
  
-     $slot = './components/_card-todo-list.php';
+     // $slot = './components/_card-todo-list.php';
      include  '../layouts/app.php';
 ?>
