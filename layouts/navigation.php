@@ -9,6 +9,8 @@
      $isLoggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'];
      $userName = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Guest';
      $userEmail = isset($_SESSION['user_email']) ? $_SESSION['user_email'] : '';
+    global $configPath;
+    var_dump($configPath);
 ?>
 
 <?php if ($isLoggedIn) : ?>
@@ -24,7 +26,7 @@
                 </button>
                 <a href="https://flowbite.com" class="flex ms-2 md:me-24">
                 <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" />
-                <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Flowbite</span>
+                <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Todo List</span>
                 </a>
             </div>
             <div class="flex items-center">

@@ -7,11 +7,12 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.8.4/dist/axios.min.js"></script>
 </head>
 <body>
     <?php 
-        include 'navigation.php'; 
         $configPath = __DIR__ . '../config/app.php';
+        include 'navigation.php'; 
     ?>
     <div>
         <?php

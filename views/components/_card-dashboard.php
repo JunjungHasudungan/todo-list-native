@@ -3,6 +3,8 @@
         ['name' => 'Galeri Photo', 'description'    => 'Bahan untuk Ukk', 'category'    => 'website', 'status'  => 'active'],
         ['name' => 'NewsPortal', 'description'    => 'Project Sisipan', 'category'    => 'website', 'status'  => 'non-active'],
     ];
+
+    global $pdo;
 ?>
 
 <div id="app">
@@ -34,35 +36,35 @@
                         </button>
                     </div>
                     <!-- Modal body -->
-                    <form @submit.prevent="sendDataProject" class="p-4 md:p-5">
+                    <form @submit.prevent="sendDataProject" method="POST"  enctype="multipart/form-data" class="p-4 md:p-5">
                         <div class="grid gap-4 mb-4 grid-cols-2">
                             <div class="col-span-2">
                                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Project</label>
-                                <input type="text" v-model="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type project name">
-                                <p v-show="errors.name" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.name }} </p>
+                                <input type="text" v-model="project.name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type project name">
+                                <p v-if="errors.name" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.name }} </p>
                             </div>
                             <div class="col-span-2 sm:col-span-1">
                                 <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-                                <select id="category" v-model="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    <option selected="">Select status</option>
-                                    <option value="active">ACTIVE</option>
+                                <select id="category" v-model="project.status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <option value="" disabled>Select status</option>
+                                    <option value="active">Active</option>
                                 </select>
-                                <p v-show="errors.status" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.status }} </p>
+                                <p v-if="errors.status" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.status }} </p>
                             </div>
                             <div class="col-span-2 sm:col-span-1">
                                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                                <select id="category" v-model="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    <option selected="">Select category</option>
+                                <select id="category" v-model="project.category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <option value="" disabled>Select category</option>
                                     <option value="website">Website</option>
                                     <option value="desktip">Desktop</option>
                                     <option value="mobile">Mobile</option>
                                 </select>
-                                <p v-show="errors.category" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.category }} </p>
+                                <p v-if="errors.category" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.category }} </p>
                             </div>
                             <div class="col-span-2">
                                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Project Description</label>
-                                <textarea id="description" v-model="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write project description here"></textarea>                    
-                                <p v-show="errors.description" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.description }} </p>
+                                <textarea id="description" v-model="project.description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write project description here"></textarea>                    
+                                <p v-if="errors.description" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.description }} </p>
                             </div>
                         </div>
                         <div class="flex gap-3">
@@ -153,6 +155,12 @@
   createApp({
     setup() {
       const isShow = ref(false);
+      const project = reactive({
+        name: '',
+        description: '',
+        status: '',
+        category: '',
+      });
       const name = ref("");
       const description = ref("");
       const status = ref("");
@@ -169,10 +177,10 @@
       }
 
       function resetForm() {
-        name.value = "";
-        description.value = "";
-        status.value = "";
-        category.value = "";
+        project.name = "";
+        project.description = "";
+        project.status = "";
+        project.category = "";
       }
 
       function resetError() {
@@ -182,26 +190,42 @@
         errors.category = "";
       }
 
-      const sendDataProject = () => {
-        if (name.value.trim() == "") {
-                errors.name = "nama project wajib diisi.."
-        }
+      async function sendDataProject () {
+        Object.keys(errors).forEach(key => errors[key] = '');
 
-        if (description.value.trim() == "") {
-                errors.description = "keterangan project wajib diisi.."
-        }
+        if (!project.name) errors.name = "nama project wajib diisi.."
 
-        if (status.value.trim() == "") {
-                errors.status = "status project wajib diisi.."
-        }
+        if (!project.description) errors.description = "keterangan project wajib diisi.."
 
-        if (category.value.trim() == "") {
-                errors.category = "category project wajib diisi.."
+        if (!project.status) errors.status = "status project wajib diisi.."
+       
+        if (!project.category) errors.category = "category project wajib diisi.."
+
+        if (Object.values(errors).some(error => error)) return; 
+
+        try {
+            const formData = new FormData();
+            formData.append('action', 'store'); 
+            formData.append('name', project.name);
+            formData.append('status', project.status);
+            formData.append('category', project.category);
+            formData.append('description', project.description);
+
+            // mengirim data project
+            const response = await axios.post('/todo-list-native/views/components/_card-dashboard.php', 
+                formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                });
+
+        } catch (error) {
+            
         }
 
       }
       const closeModal = () => {
-        if (name.value != "" || description.value != "" || status.value != "" || category.value != "") {
+        if (project.name != "" || project.description != "" || project.status != "" || project.description != "") {
             let confirm = window.confirm("yakin untuk membatalkan?")
             if (confirm) {
                 isShow.value = false;
@@ -216,7 +240,7 @@
         resetForm();
       }
       return {
-        openModal, name, description, status, category, closeModal, isShow, sendDataProject, errors
+        openModal, name, description, status, category, closeModal, isShow, sendDataProject, errors, project
       }
     }
   }).mount('#app')
