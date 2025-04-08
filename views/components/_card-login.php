@@ -23,11 +23,11 @@
                 $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email');
                 $stmt->execute(['email' => $email]);
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    
                 if ($user && password_verify($password, $user['password'])) {
-                    $_SESSION['logged_in'] = true;
-                    $_SESSION['user_name'] = $name;
+                    $_SESSION['logged_in']  = true;
+                    $_SESSION['user_name']  = $name;
                     $_SESSION['user_email'] = $email;
+                    $_SESSION['user_id']    = $user['id'];
                     header("Location: ../dashboard.php");
                 } else {
                     $errors['password'] = "Email atau password salah!";

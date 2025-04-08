@@ -9,8 +9,7 @@
      $isLoggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'];
      $userName = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Guest';
      $userEmail = isset($_SESSION['user_email']) ? $_SESSION['user_email'] : '';
-    global $configPath;
-    var_dump($configPath);
+     $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
 ?>
 
 <?php if ($isLoggedIn) : ?>

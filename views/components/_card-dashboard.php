@@ -1,10 +1,11 @@
 <?php 
+    global $userId;
+
     $listProjet = [
         ['name' => 'Galeri Photo', 'description'    => 'Bahan untuk Ukk', 'category'    => 'website', 'status'  => 'active'],
         ['name' => 'NewsPortal', 'description'    => 'Project Sisipan', 'category'    => 'website', 'status'  => 'non-active'],
     ];
 
-    global $pdo;
 ?>
 
 <div id="app">
@@ -212,15 +213,20 @@
             formData.append('description', project.description);
 
             // mengirim data project
-            const response = await axios.post('/todo-list-native/views/components/_card-dashboard.php', 
+            const response = await axios.post('/todo-list-native/services/project.php', 
                 formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                 });
 
+                const result = response.data;
+                if (result.success) {
+                    resetForm();
+                    isShow.value = false;
+                }
         } catch (error) {
-            
+            console.log(error)
         }
 
       }
