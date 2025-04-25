@@ -26,7 +26,7 @@
                 $errors['email'] = 'email wajib disi..';
             }
 
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL) && ! empty($email)) {
                 $errors['email'] = 'Format email tidak valid';
             }
 
