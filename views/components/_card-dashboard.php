@@ -23,110 +23,12 @@
                         <span class="sr-only">Close modal</span>
                     </button>
                 </div>
-                <form @submit.prevent="sendDataProject" method="POST"  enctype="multipart/form-data" class="p-4 md:p-5">
-                    <div class="grid gap-4 mb-4 grid-cols-2">
-                        <div class="col-span-2">
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Project</label>
-                            <input type="text" v-model="project.name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type project name">
-                            <p v-if="errors.name" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.name }} </p>
-                        </div>
-                        <div class="col-span-2 sm:col-span-1">
-                            <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-                            <select id="category" v-model="project.status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option value="active">Active</option>
-                            </select>
-                            <p v-if="errors.status" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.status }} </p>
-                        </div>
-                        <div class="col-span-2 sm:col-span-1">
-                            <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                            <select id="category" v-model="project.category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option value="" disabled>Select category</option>
-                                <option value="website">Website</option>
-                                <option value="desktip">Desktop</option>
-                                <option value="mobile">Mobile</option>
-                            </select>
-                            <p v-if="errors.category" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.category }} </p>
-                        </div>
-                        <div class="col-span-2">
-                            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Project Description</label>
-                            <textarea id="description" v-model="project.description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write project description here"></textarea>                    
-                            <p v-if="errors.description" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.description }} </p>
-                        </div>
-                    </div>
-                    <div class="flex gap-3">
-                        <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            Save
-                        </button>
-                        <button 
-                            @click="closeModal"
-                            type="button" 
-                            class="text-white inline-flex items-center bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                        Close
-                    </button>
-                    </div>
-                </form>
+               <?php include '_card-form-create-project.php'; ?>
             </div>
         </div>
     </div> 
     <div v-if="!isShow" class="overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                <th scope="col" class="px-6 py-3">
-                        #
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Project name
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Status
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Category
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Keterangan
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        <span class="sr-only">Edit</span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <template v-if="listProject.length > 0">
-                    <tr v-for="(project, index) in listProject" :key="project.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <td class="px-6 py-4">
-                            {{ index + 1 }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ project.name }}
-                        </td>
-                        <td class="px-6 py-4">
-                                <span v-if="project.status == 'active' " class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-green-400 border border-green-400">
-                                    {{ project.status }}
-                                </span>
-                                <span v-else class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300">
-                                        {{ project.status }}
-                                </span>
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ project.category }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ project.description }}   
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        </td>
-                    </tr>
-                </template>
-                <tr v-else>
-                    <td colspan="6" class="text-center p-4 text-sm text-yellow-800 bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300">
-                        <span class="font-medium">Belum ada data project.</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <?php include '_card-table-list-project.php'; ?>    
     </div>
 </div>
 
@@ -160,6 +62,14 @@
 
       const openModal = ()=> {
         isShow.value = true;
+      }
+
+      function btnDeleteProject(id) {
+        let confirm = window.confirm('yakin untuk menghapus?')
+        if(confirm) {
+            sendDeleteProject(id);
+        }
+        return
       }
 
       function resetForm() {
@@ -227,6 +137,23 @@
         }
     }
 
+    async function sendDeleteProject(projectId) {
+        try {
+            const formData = new FormData();
+            formData.append('action', 'delete'); 
+            formData.append('id', projectId);
+            
+            const response = await axios.post('/todo-list-native/services/project.php', formData);
+            const result = response.data
+            if (result.success) {
+                await getDataProject();
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
       const closeModal = () => {
         if (project.name != "" || project.description != "" || project.status != "" || project.description != "") {
             let confirm = window.confirm("yakin untuk membatalkan?")
@@ -253,6 +180,7 @@
         errors, 
         project,
         listProject,
+        btnDeleteProject,
       }
     }
   }).mount('#app')
