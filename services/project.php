@@ -30,6 +30,27 @@ header('Content-Type: application/json');
      }
      
  }
+
+ function getListProject() {
+    global $pdo;
+    global $userId;
+    $userId = $_SESSION['user_id'];
+    try {
+        $pdo->beginTransaction();
+
+        $querySelectALL = $pdo->prepare("SELECT * FROM projects WHERE user_id = :userId");
+        // $querySelectALL->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $querySelectALL->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $querySelectALL->execute();
+        $projects = $querySelectALL->fetchAll();
+        $pdo->commit();
+
+        return ['success'   => true, 'data'=> $projects];
+    } catch (\Exception $e) {
+        $pdo->rollBack();
+        return ['errors' => ['general' => $e->getMessage()]];
+    }
+ }
  // menangani request
  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $action = $_POST['action'] ?? '';
@@ -48,6 +69,10 @@ header('Content-Type: application/json');
     }else {
      echo json_encode(['errors' => ['general' => 'Aksi tidak valid.']]);
     }
- } else {
-     
+ }
+
+
+ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    $listProject = getListProject();
+    echo json_encode($listProject);
  }
