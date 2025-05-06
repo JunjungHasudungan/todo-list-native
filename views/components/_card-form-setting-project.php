@@ -2,29 +2,31 @@
     <div class="grid gap-4 mb-4 grid-cols-2">
         <div class="col-span-2">
             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Project</label>
-            <input type="text" v-model="project.name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type project name">
+            <input readonly type="text" v-model="projectById.name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type project name">
+            <p v-if="errors.name" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.name }} </p>
+        </div>
+        <div class="col-span-2">
+            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Project</label>
+            <input type="text" v-model="projectById.name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type project name">
             <p v-if="errors.name" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.name }} </p>
         </div>
         <div class="col-span-2 sm:col-span-1">
             <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-            <select id="category" v-model="project.status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option value="active">Active</option>
+            <select id="category" v-model="projectById.status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                <option :value="projectById.status">{{projectById.status}}</option>
             </select>
             <p v-if="errors.status" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.status }} </p>
         </div>
         <div class="col-span-2 sm:col-span-1">
             <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-            <select id="category" v-model="project.category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option value="" disabled>Select category</option>
-                <option value="website">Website</option>
-                <option value="desktip">Desktop</option>
-                <option value="mobile">Mobile</option>
+            <select id="category" v-model="projectById.category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                <option :value="projectById.category">{{ projectById.category }}</option>
             </select>
             <p v-if="errors.category" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.category }} </p>
         </div>
         <div class="col-span-2">
             <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Project Description</label>
-            <textarea id="description" v-model="project.description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write project description here"></textarea>                    
+            <textarea id="description" v-model="projectById.description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write project description here"></textarea>                    
             <p v-if="errors.description" class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.description }} </p>
         </div>
     </div>

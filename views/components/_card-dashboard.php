@@ -68,6 +68,7 @@
         status: '',
         category: '',
       });
+      const projectById = ref({})
       const listProject = ref([]);
       const name = ref("");
       const description = ref("");
@@ -88,8 +89,9 @@
         isShow.value = true;
       }
 
-      const btnSetting =(id)=> {
+      const btnSetting = async(projectId)=> {
         isSetting.value = true;
+        await getDataProjectById(projectId);
       }
 
       function btnDeleteProject(id) {
@@ -165,6 +167,15 @@
           }
       }
 
+      async function getDataProjectById(projectId) {
+        try {
+              const response = await axios.get(`/todo-list-native/services/project.php?projectId=${projectId}`);
+              projectById.value = response.data.data;
+          } catch (error) {
+              console.log(error)
+          }
+      }
+
       async function sendDeleteProject(projectId) {
           try {
               const formData = new FormData();
@@ -227,6 +238,7 @@
         listProject,
         btnDeleteProject,
         btnSetting,
+        projectById,
       }
     }
   }).mount('#app')
