@@ -1,12 +1,12 @@
 <div id="app">
     <button 
-        v-if="!isShow"
+        v-if="!isShow && !isSetting"
         @click="openModal"
         type="button"
         class="mb-2 text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
         + Project
     </button>
-    <div v-if="isShow" id="crud-modal" class="flex fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div v-if="isShow && !isSetting" id="crud-modal" class="flex fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-lg max-h-full">
             <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
@@ -27,7 +27,30 @@
             </div>
         </div>
     </div> 
-    <div v-if="!isShow" class="overflow-x-auto shadow-md sm:rounded-lg">
+
+    <div v-if="isSetting" id="crud-modal" class="flex fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-lg max-h-full">
+            <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                        Setting Product
+                    </h3>
+                    <button 
+                        @click="closeModalSetting"
+                        type="button" 
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+               <?php include '_card-form-setting-project.php'; ?>
+            </div>
+        </div>
+    </div> 
+
+    <div v-if="!isShow && !isSetting" class="overflow-x-auto shadow-md sm:rounded-lg">
         <?php include '_card-table-list-project.php'; ?>    
     </div>
 </div>
@@ -38,6 +61,7 @@
   createApp({
     setup() {
       const isShow = ref(false);
+      const isSetting = ref(false);
       const project = reactive({
         name: '',
         description: '',
@@ -62,6 +86,10 @@
 
       const openModal = ()=> {
         isShow.value = true;
+      }
+
+      const btnSetting =(id)=> {
+        isSetting.value = true;
       }
 
       function btnDeleteProject(id) {
@@ -127,32 +155,32 @@
 
       }
 
-    async function getDataProject() {
-        try {
-            const response = await axios.get('/todo-list-native/services/project.php');
-            listProject.value = response.data.data;
-            
-        } catch (error) {
-            console.log(error)
-        }
-    }
+      async function getDataProject() {
+          try {
+              const response = await axios.get('/todo-list-native/services/project.php');
+              listProject.value = response.data.data;
+              
+          } catch (error) {
+              console.log(error)
+          }
+      }
 
-    async function sendDeleteProject(projectId) {
-        try {
-            const formData = new FormData();
-            formData.append('action', 'delete'); 
-            formData.append('id', projectId);
-            
-            const response = await axios.post('/todo-list-native/services/project.php', formData);
-            const result = response.data
-            if (result.success) {
-                await getDataProject();
-            }
+      async function sendDeleteProject(projectId) {
+          try {
+              const formData = new FormData();
+              formData.append('action', 'delete'); 
+              formData.append('id', projectId);
+              
+              const response = await axios.post('/todo-list-native/services/project.php', formData);
+              const result = response.data
+              if (result.success) {
+                  await getDataProject();
+              }
 
-        } catch (error) {
-            console.log(error)
-        }
-    }
+          } catch (error) {
+              console.log(error)
+          }
+      }
 
       const closeModal = () => {
         if (project.name != "" || project.description != "" || project.status != "" || project.description != "") {
@@ -168,6 +196,21 @@
         resetError();
         resetForm();
       }
+
+      const closeModalSetting = () => {
+        if (project.name != "" || project.description != "" || project.status != "" || project.description != "") {
+            let confirm = window.confirm("yakin untuk membatalkan?")
+            if (confirm) {
+              isSetting.value = false;
+                resetForm();
+                resetError();
+            }
+            return;
+        }
+        isSetting.value = false;
+        resetError();
+        resetForm();
+      }
       return {
         openModal, 
         name, 
@@ -175,12 +218,15 @@
         status, 
         category, 
         closeModal, 
+        closeModalSetting,
         isShow, 
+        isSetting,
         sendDataProject, 
         errors, 
         project,
         listProject,
         btnDeleteProject,
+        btnSetting,
       }
     }
   }).mount('#app')

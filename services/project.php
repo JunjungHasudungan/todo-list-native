@@ -51,14 +51,20 @@ header('Content-Type: application/json');
  function deleteProject($projectId) {
     global $pdo;
     global $userId;
+    global $projectId;
     $userId = $_SESSION['user_id'];
     try {
-        $pdo->beginTransaction();
+        // $pdo->beginTransaction();
+        // $stmt = $pdo->prepare("DELETE FROM projects WHERE id = :projectId");
+                    // $stmt->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+                    // $stmt->execute();
+                    // echo json_encode(['success' => true, 'message' => 'Berhasil dihapus..']);
+
         $queryDeleteProject = $pdo->prepare("DELETE FROM projects WHERE id = :projectId");
         $queryDeleteProject->bindParam(':projectId', $projectId, PDO::PARAM_INT);
         $queryDeleteProject->execute();
         
-        $pdo->commit();
+        // $pdo->commit();
         return ['success' => true, 'message' => 'Berhasil dihapus..'];
 
     } catch (\Exception $e) {
@@ -79,7 +85,7 @@ header('Content-Type: application/json');
                     
                     $result = storeProject($name, $status, $category, $description);
                     echo json_encode($result);
-                break;
+            break;
             case 'delete':
                 $projectId = $_POST['id'] ?? null;
                     $stmt = $pdo->prepare("DELETE FROM projects WHERE id = :projectId");

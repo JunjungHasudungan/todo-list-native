@@ -45,7 +45,7 @@
                     {{ project.description }}   
                 </td>
                 <td class="px-6 py-4 text-right flex gap-3">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                    <a @click="btnSetting(project.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Setting</a>
                     <a @click="btnDeleteProject(project.id)" class="font-medium text-red-600 dark:text-red-500">Delete</a>
                 </td>
             </tr>
