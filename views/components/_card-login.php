@@ -27,6 +27,7 @@
                     $_SESSION['logged_in']  = true;
                     $_SESSION['user_name']  = $user['name'];
                     $_SESSION['user_email'] = $email;
+                    var_dump($user['id']);
                     $_SESSION['user_id']    = $user['id'];
                     header("Location: ../dashboard.php");
                 } else {

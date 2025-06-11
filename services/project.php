@@ -19,6 +19,8 @@ header('Content-Type: application/json');
              ':user_id'     => $userId,
          ]);
 
+         var_dump($userId);
+
          $pdo->commit();
          return ['success'   => true];
      } catch (\Exception $e) {

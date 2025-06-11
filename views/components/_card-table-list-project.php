@@ -22,7 +22,7 @@
         </tr>
     </thead>
     <tbody>
-        <template v-if="listProject.length > 0">
+        <template v-if="listProject && listProject.length > 0">
             <tr v-for="(project, index) in listProject" :key="project.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="px-6 py-4">
                     {{ index + 1 }}
