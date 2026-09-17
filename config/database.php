@@ -1,15 +1,23 @@
 <?php
-$config = include __DIR__ .'/app.php'; 
+require_once __DIR__ . '/env.php';
 
-// Membuat DSN
-$dsn = "mysql:host={$config['db_host']};dbname={$config['db_name']}";
+$host = $_ENV['DB_HOST'];
+$port = $_ENV['DB_PORT'];
+$database = $_ENV['DB_DATABASE'];
+$username = $_ENV['DB_USERNAME'];
+$password = $_ENV['DB_PASSWORD'];
+$app_name = $_ENV['APP_NAME'];
 
-// Membuat objek PDO
 try {
-    $pdo = new PDO($dsn, $config['db_user'], $config['db_password'], $config['db_options']);
-} catch (PDOException $e) {
-    // Menangani kesalahan koneksi
-    throw new PDOException($e->getMessage(), (int)$e->getCode());
-}
+    $pdo = new PDO(
+        "mysql:host=$host;dbname=$database;charset=utf8mb4",
+        $username,
+        $password
+    );
 
-return $pdo;
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+} catch (PDOException $e) {
+    die("Koneksi database gagal: " . $e->getMessage());
+}
